@@ -6,15 +6,6 @@ Reiter: fechou cria
 user:admin
 password: password 
 
-Banzo: O meu ta com a senha invertida
-
-Dede: Já vou arrumar no commit
-
-Duardin: era so mudar o lugar do 1 pro 2 no entry na função de login
+Duardin: Filtros aplicados e revisão feita
 
 
-Bostexsander:eu uso drogas e fumo maconha
-eu transo de costas e dou linguadas no fabio hehe(sou cuzão)
-SUCC
-FUCC
-Banzo: blz
