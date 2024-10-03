@@ -5,7 +5,7 @@ from tkinter import Tk, Canvas, Entry, Button, PhotoImage, messagebox
 from telas.tela_captura import abrir_tela_captura  # Ajuste a importação aqui
 
 OUTPUT_PATH = Path(__file__).parent
-ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Users\22.01388-0\Documents\PI-RecFac\assets\frame0")
+ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Users\vicre\Documents\GitHub\PI-RecFac-certo\assets\frame0")
 
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)

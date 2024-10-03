@@ -1,9 +1,10 @@
 from pathlib import Path
-from tkinter import Tk, Canvas, Button, PhotoImage
+from tkinter import Tk, Canvas, Button, PhotoImage, messagebox
+from tkinter import filedialog  # Para abrir o explorador de arquivos
+import os
 
 OUTPUT_PATH = Path(__file__).parent
-ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Users\22.01388-0\Documents\PI-RecFac\assets\frame0")
-
+ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Users\vicre\Documents\GitHub\PI-RecFac\assets\frame0")
 
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
@@ -62,13 +63,84 @@ def abrir_tela_captura():
         font=("Inter Bold", 14 * -1)
     )
 
+    # Função para exportar os dados para CSV
+    def exportar_dados_csv():
+        file_path = filedialog.asksaveasfilename(
+            defaultextension=".csv",
+            filetypes=[("CSV files", "*.csv")],
+            title="Salvar arquivo como",
+            initialfile="dados_reconhecimento.csv"  # Nome sugerido para o arquivo
+        )
+
+        if file_path:
+            dados_reconhecimento_facial = {
+                'ID': [1, 2, 3],
+                'Nome': ['Pessoa 1', 'Pessoa 2', 'Pessoa 3'],
+                'Data_Hora': ['2024-10-01 14:23:00', '2024-10-01 15:05:00', '2024-10-01 15:12:00'],
+                'Confiança': [98.5, 97.3, 99.1]
+            }
+
+            exportar_para_csv(dados_reconhecimento_facial, file_path)
+
+            messagebox.showinfo(
+                "Exportação Bem-sucedida",
+                f"O arquivo foi exportado com sucesso para: {file_path}"
+            )
+
+            abrir_agora = messagebox.askyesno(
+                "Abrir Arquivo",
+                "Deseja abrir o arquivo no Excel agora?"
+            )
+
+            if abrir_agora:
+                os.startfile(file_path)
+
+    # Função para exportar os dados para o Power BI
+    def exportar_dados_para_powerbi():
+        # Abre o explorador de arquivos para o usuário escolher o local e o nome do arquivo
+        file_path = filedialog.asksaveasfilename(
+            defaultextension=".csv",
+            filetypes=[("CSV files", "*.csv")],
+            title="Salvar arquivo como",
+            initialfile="dados_powerbi.csv"  # Nome sugerido para o arquivo Power BI
+        )
+
+        if file_path:
+            # Aqui você pode usar os dados de reconhecimento facial
+            dados_reconhecimento_facial = {
+                'ID': [1, 2, 3],
+                'Nome': ['Pessoa 1', 'Pessoa 2', 'Pessoa 3'],
+                'Data_Hora': ['2024-10-01 14:23:00', '2024-10-01 15:05:00', '2024-10-01 15:12:00'],
+                'Confiança': [98.5, 97.3, 99.1]
+            }
+
+            # Exporta para o arquivo CSV
+            exportar_para_csv(dados_reconhecimento_facial, file_path)
+
+            # Mensagem de confirmação
+            messagebox.showinfo(
+                "Exportação para Power BI",
+                f"O arquivo foi exportado com sucesso para: {file_path}"
+            )
+
+            # Pergunta se o usuário deseja abrir o Power BI
+            abrir_powerbi = messagebox.askyesno(
+                "Abrir no Power BI",
+                "Deseja abrir o Power BI agora e importar o arquivo?"
+            )
+
+            # Não é possível abrir diretamente o Power BI, mas pode abrir o arquivo CSV
+            if abrir_powerbi:
+                # O usuário terá que abrir o Power BI manualmente e importar o arquivo CSV
+                os.startfile(file_path)
+
     # Botão para exportar para CSV
     button_botao_csv = PhotoImage(file=relative_to_assets("botao_csv.png"))
     button_1 = Button(
         image=button_botao_csv,
         borderwidth=0,
         highlightthickness=0,
-        command=lambda: print("button_1 clicked"),
+        command=exportar_dados_csv,
         relief="flat"
     )
     button_1.place(
@@ -84,7 +156,7 @@ def abrir_tela_captura():
         image=button_botao_pb,
         borderwidth=0,
         highlightthickness=0,
-        command=lambda: print("button_2 clicked"),
+        command=exportar_dados_para_powerbi,  # Chama a função de exportação para Power BI
         relief="flat"
     )
     button_2.place(
@@ -94,7 +166,7 @@ def abrir_tela_captura():
         height=49.0
     )
 
-    # Botão de Captura de dados
+    # Botão de Captura de dados (mantido sem mudanças)
     button_botao_captura = PhotoImage(file=relative_to_assets("botao_captura.png"))
     button_3 = Button(
         image=button_botao_captura,
