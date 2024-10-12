@@ -2,11 +2,13 @@
 import sqlite3
 from pathlib import Path
 from tkinter import Tk, Canvas, Entry, Button, PhotoImage, messagebox
-from telas.tela_captura import abrir_tela_captura  # Ajuste a importação aqui
+from telas.tela_captura import abrir_tela_captura
 
 OUTPUT_PATH = Path(__file__).parent
-ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Users\vicre\Documents\GitHub\PI-RecFac-certo\assets\frame0")
+ASSETS_PATH = OUTPUT_PATH / Path(r"D:\Docs\PI-RecFac\assets\frame0")
 
+
+# ------------------------------ FUNÇÕES DE LOGIN ------------------------------
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
@@ -30,9 +32,10 @@ def on_login():
 
 def on_enter(event):
     on_login()
+# -------------------------- FIM DAS FUNÇÕES DE LOGIN --------------------------
 
 def abrir_tela_login():
-    global entry_1, entry_2, window  # Tornando as entradas e a janela globais
+    global entry_1, entry_2, window
 
     window = Tk()
     window.geometry("750x700")
