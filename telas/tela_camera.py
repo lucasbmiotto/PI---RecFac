@@ -5,7 +5,7 @@ import cv2
 from deepface import DeepFace
 
 OUTPUT_PATH = Path(__file__).parent
-ASSETS_PATH = OUTPUT_PATH / Path(r"D:\Docs\PI-RecFac\assets\frame0")
+ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Users\dudug\Desktop\REC-FAC\PI-RecFac\assets\frame0")
 
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)

@@ -5,7 +5,7 @@ from tkinter import Tk, Canvas, Entry, Button, PhotoImage, messagebox
 from telas.tela_captura import abrir_tela_captura
 
 OUTPUT_PATH = Path(__file__).parent
-ASSETS_PATH = OUTPUT_PATH / Path(r"D:\Docs\PI-RecFac\assets\frame0")
+ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Users\dudug\Desktop\REC-FAC\PI-RecFac\assets\frame0")
 
 
 # ------------------------------ FUNÇÕES DE LOGIN ------------------------------
