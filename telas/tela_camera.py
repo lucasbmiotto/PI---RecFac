@@ -1,11 +1,46 @@
 from pathlib import Path
 from tkinter import Tk, Canvas, Button, PhotoImage
+from PIL import Image, ImageTk
+import cv2
+from deepface import DeepFace
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path(r"D:\Docs\PI-RecFac\assets\frame0")
 
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
+
+# ------------------------------ FUNÇÕES DE CAMERA ------------------------------
+
+class CameraApp:
+    def __init__(self, canvas, image_id):
+        self.canvas = canvas
+        self.image_id = image_id
+        self.cap = cv2.VideoCapture(0)
+        
+        self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+        self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 400)
+
+        self.update_frame()
+
+    def update_frame(self):
+        ret, frame = self.cap.read()
+        if ret:
+            # Processa o frame, se necessário
+            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            img = ImageTk.PhotoImage(image=Image.fromarray(frame))
+
+            # Atualiza a imagem no canvas
+            self.canvas.itemconfig(self.image_id, image=img)
+            self.canvas.image = img
+
+        # Chama a função novamente após 50 ms
+        self.canvas.after(50, self.update_frame)
+
+    def release(self):
+        self.cap.release()
+
+# ------------------------- FIM DAS FUNÇÕES DE CAMERA -------------------------
 
 def abrir_tela_camera():
     window = Tk()
@@ -60,13 +95,13 @@ def abrir_tela_camera():
         font=("Inter Bold", 14 * -1)
     )
 
-    # Botão de Captura de dados
+    # Botão parar Captura de dados
     button_botao_captura = PhotoImage(file=relative_to_assets("botao_captura.png"))
     button_2 = Button(
         image=button_botao_captura,
         borderwidth=0,
         highlightthickness=0,
-        command=lambda: [window.destroy(), abrir_tela_captura()],  # Vai voltar para a tela_captura
+        command=lambda: [camera_app.release(), window.destroy(), abrir_tela_captura()],
         relief="flat"
     )
     button_2.place(
@@ -76,16 +111,19 @@ def abrir_tela_camera():
         height=85.0
     )
 
-    # Imagem onde fica a camera
-    image_image_2 = PhotoImage(
-        file=relative_to_assets("quadrado_camera.png"))
-    image_2 = canvas.create_image(
-        597.0,
-        340.0,
-        image=image_image_2
-    )
+    # Cria a imagem onde a câmera será exibida
+    image_image_2 = PhotoImage(file=relative_to_assets("quadrado_camera.png"))
+    image_id = canvas.create_image(597.0, 340.0, image=image_image_2)
 
-    # Essa importação fica dentro da função, para evitar "Importação circular", dps eu explico isso
+    camera_app = CameraApp(canvas, image_id)
+
+    def on_closing():
+        camera_app.release()
+        window.destroy()
+
+    window.protocol("WM_DELETE_WINDOW", on_closing)
+
+    # Essa importação fica dentro da função, para evitar "Importação circular"
     from telas.tela_captura import abrir_tela_captura
 
     window.resizable(False, False)
