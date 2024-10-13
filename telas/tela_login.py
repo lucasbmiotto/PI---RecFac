@@ -1,38 +1,17 @@
-# tela_login.py
 import sqlite3
 from pathlib import Path
 from tkinter import Tk, Canvas, Entry, Button, PhotoImage, messagebox
 from telas.tela_captura import abrir_tela_captura
+from functions.login_functions import on_login, check_login
 
 OUTPUT_PATH = Path(__file__).parent
-ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Users\dudug\Desktop\REC-FAC\PI-RecFac\assets\frame0")
+ASSETS_PATH = OUTPUT_PATH / Path(r"D:\Docs\PI-RecFac\assets\frame0")
 
-
-# ------------------------------ FUNÇÕES DE LOGIN ------------------------------
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
-def check_login(username, password):
-    conn = sqlite3.connect('database/login.db')
-    cursor = conn.cursor()
-    cursor.execute('SELECT * FROM users WHERE username = ? AND password = ?', (username, password))
-    result = cursor.fetchone()
-    conn.close()
-    return result is not None
-
-def on_login():
-    username = entry_2.get()
-    password = entry_1.get()
-    if check_login(username, password):
-        messagebox.showinfo("Login Successful", "Welcome!")
-        window.destroy()
-        abrir_tela_captura()
-    else:
-        messagebox.showerror("Login Failed", "Invalid username or password.")
-
 def on_enter(event):
-    on_login()
-# -------------------------- FIM DAS FUNÇÕES DE LOGIN --------------------------
+    on_login(entry_1, entry_2, window, abrir_tela_captura)
 
 def abrir_tela_login():
     global entry_1, entry_2, window
@@ -71,7 +50,7 @@ def abrir_tela_login():
         image=botao_entrar_login,
         borderwidth=0,
         highlightthickness=0,
-        command=on_login,
+        command=lambda: on_login(entry_1, entry_2, window, abrir_tela_captura),
         relief="flat"
     )
     button_1.place(x=250.0, y=530.0, width=241.0, height=50.0)

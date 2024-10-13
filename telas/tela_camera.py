@@ -3,44 +3,13 @@ from tkinter import Tk, Canvas, Button, PhotoImage
 from PIL import Image, ImageTk
 import cv2
 from deepface import DeepFace
+from functions.camera_functions import CameraApp
 
 OUTPUT_PATH = Path(__file__).parent
-ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Users\dudug\Desktop\REC-FAC\PI-RecFac\assets\frame0")
+ASSETS_PATH = OUTPUT_PATH / Path(r"D:\Docs\PI-RecFac\assets\frame0")
 
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
-
-# ------------------------------ FUNÇÕES DE CAMERA ------------------------------
-
-class CameraApp:
-    def __init__(self, canvas, image_id):
-        self.canvas = canvas
-        self.image_id = image_id
-        self.cap = cv2.VideoCapture(0)
-        
-        self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
-        self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 400)
-
-        self.update_frame()
-
-    def update_frame(self):
-        ret, frame = self.cap.read()
-        if ret:
-            # Processa o frame, se necessário
-            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            img = ImageTk.PhotoImage(image=Image.fromarray(frame))
-
-            # Atualiza a imagem no canvas
-            self.canvas.itemconfig(self.image_id, image=img)
-            self.canvas.image = img
-
-        # Chama a função novamente após 50 ms
-        self.canvas.after(50, self.update_frame)
-
-    def release(self):
-        self.cap.release()
-
-# ------------------------- FIM DAS FUNÇÕES DE CAMERA -------------------------
 
 def abrir_tela_camera():
     window = Tk()

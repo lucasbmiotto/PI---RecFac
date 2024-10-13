@@ -1,9 +1,10 @@
 from pathlib import Path
 from tkinter import Tk, Canvas, Button, PhotoImage
 from telas.tela_camera import abrir_tela_camera
+# from functions.camera_functions import NOME_DA_FUNCTIONS_FUTURA --> ATUALIZAR AQUI QUANDO CRIAR A FUNÇÃO DE EXPORT
 
 OUTPUT_PATH = Path(__file__).parent
-ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Users\dudug\Desktop\REC-FAC\PI-RecFac\assets\frame0")
+ASSETS_PATH = OUTPUT_PATH / Path(r"D:\Docs\PI-RecFac\assets\frame0")
 
 
 def relative_to_assets(path: str) -> Path:
