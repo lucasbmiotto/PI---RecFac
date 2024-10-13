@@ -65,7 +65,7 @@ def abrir_tela_camera():
     )
 
     # Botão parar Captura de dados
-    button_botao_captura = PhotoImage(file=relative_to_assets("botao_captura.png"))
+    button_botao_captura = PhotoImage(file=relative_to_assets("botao_parar_captura.png"))
     button_2 = Button(
         image=button_botao_captura,
         borderwidth=0,
