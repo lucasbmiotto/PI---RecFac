@@ -1,1 +1,0 @@
-print("teste de commit novo, FTR300")

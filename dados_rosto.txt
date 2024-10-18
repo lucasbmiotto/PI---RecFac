@@ -1,0 +1,18 @@
+Foto: rostos\rosto_20241017_231153.jpg
+Idade: 30
+Gênero: {'Woman': 5.89035302400589, 'Man': 94.10964250564575}
+Raça: asian
+Emoção: sad
+
+Foto: rostos\rosto_20241017_232157.jpg
+Idade: 24
+Gênero: {'Woman': 0.6554454565048218, 'Man': 99.34455156326294}
+Raça: middle eastern
+Emoção: neutral
+
+Foto: rostos\rosto_20241017_232248.jpg
+Idade: 30
+Gênero: {'Woman': 1.67857576161623, 'Man': 98.3214259147644}
+Raça: white
+Emoção: sad
+
