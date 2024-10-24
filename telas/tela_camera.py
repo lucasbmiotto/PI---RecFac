@@ -4,12 +4,26 @@ from PIL import Image, ImageTk
 import cv2
 from deepface import DeepFace
 from functions.camera_functions import CameraApp
+import os
+import shutil
 
 OUTPUT_PATH = Path(__file__).parent
-ASSETS_PATH = OUTPUT_PATH / Path(r"D:\Docs\PI-RecFac\assets\frame0")
+ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Users\22.01388-0\Documents\PI-RecFac\assets\frame0")
 
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
+
+def deletar_rostos():
+    rostos_path = Path(r"C:\Users\22.01388-0\Documents\PI-RecFac\rostos")
+    for item in os.listdir(rostos_path):
+        item_path = rostos_path / item
+        try:
+            if item_path.is_file():
+                os.remove(item_path)
+            elif item_path.is_dir():
+                shutil.rmtree(item_path)
+        except Exception as e:
+            print(f"Erro ao deletar {item_path}: {e}")
 
 def abrir_tela_camera():
     window = Tk()
@@ -70,7 +84,7 @@ def abrir_tela_camera():
         image=button_botao_captura,
         borderwidth=0,
         highlightthickness=0,
-        command=lambda: [camera_app.release(), window.destroy(), abrir_tela_captura()],
+        command=lambda: [deletar_rostos(), camera_app.release(), window.destroy(), abrir_tela_captura()],
         relief="flat"
     )
     button_2.place(

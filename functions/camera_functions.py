@@ -68,12 +68,8 @@ class CameraApp:
             emotion = data['dominant_emotion']
 
             # Criar e salvar os dados em um arquivo .txt
-            with open('dados_rosto.txt', 'a') as f:
-                f.write(f"Foto: {photo_path}\n")
-                f.write(f"Idade: {age}\n")
-                f.write(f"Gênero: {gender}\n")
-                f.write(f"Raça: {race}\n")
-                f.write(f"Emoção: {emotion}\n\n")
+            with open('exports/dados_rosto.csv', 'a') as f:
+                f.write(f"{age},{gender},{race},{emotion}\n")
 
             # Deletar a imagem após a análise
             os.remove(photo_path)
