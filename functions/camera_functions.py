@@ -31,24 +31,19 @@ class CameraApp:
                 for (x, y, w, h) in faces:
                     cv2.rectangle(rgb_frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
 
-                    # Se não houver foto tirada, tirar uma foto
                     if not self.face_detected:
                         timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
                         photo_path = os.path.join("rostos", f"rosto_{timestamp}.jpg")
                         cv2.imwrite(photo_path, frame)
                         self.face_detected = True
 
-                        # Analisar a imagem e coletar dados
                         self.analise_face(photo_path)
 
-                        # Mudar o retângulo para vermelho
                         cv2.rectangle(rgb_frame, (x, y), (x + w, y + h), (0, 0, 255), 2)
 
             else:
-                # Se nenhum rosto for detectado, resetar a variável de controle
                 self.face_detected = False
 
-            # Converter a imagem para o formato Tkinter
             img = ImageTk.PhotoImage(image=Image.fromarray(rgb_frame))
             self.canvas.itemconfig(self.image_id, image=img)
             self.canvas.image = img
@@ -56,26 +51,39 @@ class CameraApp:
         self.canvas.after(50, self.update_frame)
 
     def analise_face(self, photo_path):
-        # Analisar a imagem usando o DeepFace
         try:
             analysis = DeepFace.analyze(photo_path, actions=['age', 'gender', 'race', 'emotion'])
             data = analysis[0]  # Pegando os dados do primeiro rosto detectado
 
             # Coletar os dados
             age = data['age']
-            gender = data['gender']
+            gender_probabilities = data['gender']  # Supondo que isso contenha as probabilidades
             race = data['dominant_race']
             emotion = data['dominant_emotion']
 
-            # Criar e salvar os dados em um arquivo .txt
-            with open('exports/dados_rosto.csv', 'a') as f:
-                f.write(f"{age},{gender},{race},{emotion}\n")
+            # Filtrar a porcentagem de gênero e salvar os dados
+            self.salvar_dados_tratados(age, gender_probabilities, race, emotion)
 
             # Deletar a imagem após a análise
             os.remove(photo_path)
 
         except Exception as e:
             print(f"Erro na análise do rosto: {e}")
+
+    def salvar_dados_tratados(self, age, gender_probabilities, race, emotion):
+        # Obter as porcentagens
+        man_percentage = gender_probabilities.get('Man', 0)
+        woman_percentage = gender_probabilities.get('Woman', 0)
+
+        # Determinar qual gênero é maior
+        if man_percentage > woman_percentage:
+            selected_gender = 'Man'
+        else:
+            selected_gender = 'Woman'
+
+        # Criar e salvar os dados em um arquivo .csv
+        with open('exports/dados_rosto.csv', 'a') as f:
+            f.write(f"{selected_gender};{age};{race};{emotion}\n")
 
     def release(self):
         self.cap.release()
