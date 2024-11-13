@@ -8,13 +8,13 @@ import os
 import shutil
 
 OUTPUT_PATH = Path(__file__).parent
-ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Users\22.01388-0\Documents\PI-RecFac\assets\frame0")
+ASSETS_PATH = OUTPUT_PATH / Path(r"D:\Docs\PI-RecFac\assets")
 
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
 def deletar_rostos():
-    rostos_path = Path(r"C:\Users\22.01388-0\Documents\PI-RecFac\rostos")
+    rostos_path = Path(r"D:\Docs\PI-RecFac\rostos")
     for item in os.listdir(rostos_path):
         item_path = rostos_path / item
         try:

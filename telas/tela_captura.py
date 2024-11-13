@@ -2,9 +2,10 @@ from pathlib import Path
 from tkinter import Tk, Canvas, Button, PhotoImage
 from telas.tela_camera import abrir_tela_camera
 # from functions.camera_functions import NOME_DA_FUNCTIONS_FUTURA --> ATUALIZAR AQUI QUANDO CRIAR A FUNÇÃO DE EXPORT
+from functions.captura_functions import exportar_arquivo
 
 OUTPUT_PATH = Path(__file__).parent
-ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Users\22.01388-0\Documents\PI-RecFac\assets\frame0")
+ASSETS_PATH = OUTPUT_PATH / Path(r"D:\Docs\PI-RecFac\assets")
 
 
 def relative_to_assets(path: str) -> Path:
@@ -70,7 +71,7 @@ def abrir_tela_captura():
         image=button_botao_csv,
         borderwidth=0,
         highlightthickness=0,
-        command=lambda: print("button_1 clicked"),
+        command=exportar_arquivo,
         relief="flat"
     )
     button_1.place(
