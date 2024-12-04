@@ -1,15 +1,35 @@
 from pathlib import Path
-from tkinter import Tk, Canvas, Button, PhotoImage
+from tkinter import Tk, Canvas, Button, PhotoImage, filedialog
 from telas.tela_camera import abrir_tela_camera
 # from functions.camera_functions import NOME_DA_FUNCTIONS_FUTURA --> ATUALIZAR AQUI QUANDO CRIAR A FUNÇÃO DE EXPORT
 from functions.captura_functions import exportar_arquivo
 
 OUTPUT_PATH = Path(__file__).parent
-ASSETS_PATH = OUTPUT_PATH / Path(r"D:\Docs\PI-RecFac\assets")
+ASSETS_PATH = OUTPUT_PATH / Path(r"C:\Users\vicre\Documents\GitHub\PI-RecFac-certo\assets")
 
 
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
+
+# Função para exportar o arquivo
+def exportar_arquivo():
+    # Usar filedialog para escolher onde salvar o CSV
+    file_path = filedialog.asksaveasfilename(
+        defaultextension=".csv", 
+        filetypes=[("CSV Files", "*.csv")],
+        title="Escolha o local para salvar o arquivo",
+        initialfile="Dados REC-FAC.csv"  # Nome padrão para o arquivo
+    )
+
+    if file_path:
+        # Aqui você pode adicionar o código para exportar os dados para o CSV
+        # Exemplo de como exportar os dados, ajustando conforme a lógica de captura dos dados
+        # Exemplo de exportação:
+        # df.to_csv(file_path, index=False)
+        print(f"Arquivo exportado para: {file_path}")  # Apenas para exibir onde o arquivo foi salvo
+
+        # Após exportar o arquivo, abre a tela de gráficos
+        abrir_tela_graficos()  # Abre a tela de gráficos
 
 # IMPORTANTE! TUDO ESTÁ NESSA FUNÇÃO, PARA QUE A TELA LOGIN POSSA CHAMAR ESSA TELA
 def abrir_tela_captura():
@@ -71,7 +91,7 @@ def abrir_tela_captura():
         image=button_botao_csv,
         borderwidth=0,
         highlightthickness=0,
-        command=exportar_arquivo,
+        command=exportar_arquivo,  # Chama a função para exportar os dados e abrir a tela de gráficos
         relief="flat"
     )
     button_1.place(
@@ -88,7 +108,7 @@ def abrir_tela_captura():
         image=button_botao_captura,
         borderwidth=0,
         highlightthickness=0,
-        command=lambda: [window.destroy(), abrir_tela_camera()],
+        command=lambda: [window.destroy()],
         relief="flat"
     )
     button_3.place(
